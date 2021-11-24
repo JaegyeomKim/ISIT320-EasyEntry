@@ -62,7 +62,7 @@ namespace Team_EasyEntry
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Customers}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
         }

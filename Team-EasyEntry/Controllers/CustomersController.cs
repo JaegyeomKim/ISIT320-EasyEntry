@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using QRCoder;
 using Team_EasyEntry.Data;
 using Team_EasyEntry.Models;
 
@@ -148,6 +152,28 @@ namespace Team_EasyEntry.Controllers
         private bool CustomerExists(int id)
         {
             return _context.Customer.Any(e => e.ID == id);
+        }
+
+        public IActionResult QRIndex()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult QRIndex(string inputText) // inputText is from index2
+        {
+            using (MemoryStream ms = new MemoryStream()) // What is this for?
+            {
+                QRCodeGenerator oRCodeGenerator = new QRCodeGenerator();
+                QRCodeData oQRCodeDate = oRCodeGenerator.CreateQrCode(inputText, QRCodeGenerator.ECCLevel.Q);
+                QRCode oQECode = new QRCode(oQRCodeDate);
+                using (Bitmap oBitmap = oQECode.GetGraphic(20))
+                {
+                    oBitmap.Save(ms, ImageFormat.Png);
+                    ViewBag.QRCode = "data:image/png;base64," + Convert.ToBase64String(ms.ToArray());
+                }
+            }
+            return View();
         }
     }
 }

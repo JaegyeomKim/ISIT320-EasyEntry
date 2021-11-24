@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\jaegy\\Desktop\\ISIT320-EasyEntery\\Team-EasyEntry\\Team-EasyEntry.csproj": {}
+    "C:\\Users\\jaegy\\Desktop\\Project-EasyEntry\\Team-EasyEntry\\Team-EasyEntry.csproj": {}
   },
   "projects": {
-    "C:\\Users\\jaegy\\Desktop\\ISIT320-EasyEntery\\Team-EasyEntry\\Team-EasyEntry.csproj": {
+    "C:\\Users\\jaegy\\Desktop\\Project-EasyEntry\\Team-EasyEntry\\Team-EasyEntry.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\jaegy\\Desktop\\ISIT320-EasyEntery\\Team-EasyEntry\\Team-EasyEntry.csproj",
+        "projectUniqueName": "C:\\Users\\jaegy\\Desktop\\Project-EasyEntry\\Team-EasyEntry\\Team-EasyEntry.csproj",
         "projectName": "Team-EasyEntry",
-        "projectPath": "C:\\Users\\jaegy\\Desktop\\ISIT320-EasyEntery\\Team-EasyEntry\\Team-EasyEntry.csproj",
+        "projectPath": "C:\\Users\\jaegy\\Desktop\\Project-EasyEntry\\Team-EasyEntry\\Team-EasyEntry.csproj",
         "packagesPath": "C:\\Users\\jaegy\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\jaegy\\Desktop\\ISIT320-EasyEntery\\Team-EasyEntry\\obj\\",
+        "outputPath": "C:\\Users\\jaegy\\Desktop\\Project-EasyEntry\\Team-EasyEntry\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
@@ -71,6 +71,10 @@
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
               "version": "[3.1.5, )"
+            },
+            "QRCoderNetCore": {
+              "target": "Package",
+              "version": "[1.0.0, )"
             }
           },
           "imports": [
