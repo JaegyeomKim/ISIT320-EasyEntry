@@ -5,13 +5,13 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using QRCoder;
 using Team_EasyEntry.Data;
 using Team_EasyEntry.Models;
-
 namespace Team_EasyEntry.Controllers
 {
     public class CustomersController : Controller
@@ -47,6 +47,7 @@ namespace Team_EasyEntry.Controllers
             return View(customer);
         }
 
+        [Authorize]
         // GET: Customers/Create
         public IActionResult Create()
         {
@@ -58,7 +59,7 @@ namespace Team_EasyEntry.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,FirstShotDate,FirstShotName,SecondShotDate,SecondShotName,ThirdShotDate,ThirdShotName")] Customer customer)
+        public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,Email,FirstShotDate,FirstShotName,SecondShotDate,SecondShotName,ThirdShotDate,ThirdShotName")] Customer customer)
         {
             if (ModelState.IsValid)
             {
@@ -154,46 +155,44 @@ namespace Team_EasyEntry.Controllers
             return _context.Customer.Any(e => e.ID == id);
         }
 
-        public IActionResult QRIndex()
+
+        public async Task<IActionResult> QRIndex()
         {
             return View();
         }
-
         [HttpPost]
-        public async Task<IActionResult> QRIndex(int ID) // inputText is from QRIndex 
+        public async Task<IActionResult> QRIndex(string email) // inputText is from QRIndex 
         {
-
-            var customer = await _context.Customer.FindAsync(7);
-            //string name = "lalala";
-            //var customer = await _context.Customer.FindAsync("Kay");
-                using (MemoryStream ms = new MemoryStream()) // What is this for?
+            var customer = await _context.Customer.Where(j => j.Email.Contains(email)).FirstAsync();
+            //var customer = await _context.Customer.FindAsync(7);
+            using (MemoryStream ms = new MemoryStream()) // What is this for?
+            {
+                QRCodeGenerator oRCodeGenerator = new QRCodeGenerator();
+                string userData = customer.FirstName + customer.LastName + customer.FirstShotName + customer.FirstShotDate + customer.SecondShotName + customer.SecondShotDate + customer.ThirdShotName + customer.ThirdShotDate;
+                QRCodeData oQRCodeDate = oRCodeGenerator.CreateQrCode(userData, QRCodeGenerator.ECCLevel.Q); //for new just try first name
+                QRCode oQECode = new QRCode(oQRCodeDate);
+                using (Bitmap oBitmap = oQECode.GetGraphic(20))
                 {
-                    QRCodeGenerator oRCodeGenerator = new QRCodeGenerator();
-                    QRCodeData oQRCodeDate = oRCodeGenerator.CreateQrCode(customer.SecondShotDate + customer.FirstName, QRCodeGenerator.ECCLevel.Q); //for new just try first name
-                    QRCode oQECode = new QRCode(oQRCodeDate);
-                    using (Bitmap oBitmap = oQECode.GetGraphic(20))
-                    {
-                        oBitmap.Save(ms, ImageFormat.Png);
-                        ViewBag.QRCode = "data:image/png;base64," + Convert.ToBase64String(ms.ToArray());
-                    }
+                    oBitmap.Save(ms, ImageFormat.Png);
+                    ViewBag.QRCode = "data:image/png;base64," + Convert.ToBase64String(ms.ToArray());
                 }
+            }
 
-            //if (inputText != null)
-            //{
+            return View();
+            //var customer = await _context.Customer.Where(j => j.Email.Contains(SearchPhrase)).FirstAsync();
             //    using (MemoryStream ms = new MemoryStream()) // What is this for?
             //    {
             //        QRCodeGenerator oRCodeGenerator = new QRCodeGenerator();
-            //        QRCodeData oQRCodeDate = oRCodeGenerator.CreateQrCode(inputText, QRCodeGenerator.ECCLevel.Q);
+            //        QRCodeData oQRCodeDate = oRCodeGenerator.CreateQrCode("lalala", QRCodeGenerator.ECCLevel.Q); //for new just try first name
             //        QRCode oQECode = new QRCode(oQRCodeDate);
             //        using (Bitmap oBitmap = oQECode.GetGraphic(20))
             //        {
             //            oBitmap.Save(ms, ImageFormat.Png);
             //            ViewBag.QRCode = "data:image/png;base64," + Convert.ToBase64String(ms.ToArray());
-            //        }
+
             //    }
             //}
-
-            return View();
+            //return View();
         }
     }
 }

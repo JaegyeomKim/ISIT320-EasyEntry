@@ -10,6 +10,7 @@ namespace Team_EasyEntry.Models
         public int ID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string Email { get; set; }
         public string FirstShotDate { get; set; }
         public string FirstShotName { get; set; }
         public string SecondShotDate { get; set; }

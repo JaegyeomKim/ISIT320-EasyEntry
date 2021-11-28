@@ -4,7 +4,36 @@
 
 <hr />
 
+@*<div class="row">
+        <div class="col-md-4">
+            <form asp-action="QRIndexResults">
+                <div class="form-group">
+                    <label name="SearchPhrase" class="control-label"></label>
+                    <input name="SearchPhrase" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Search" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>*@
+
+
+@using (Html.BeginForm("QRIndex", "Customers", FormMethod.Post))
+{
+    <div class="form-group">
+        <label name="email" class="control-label"></label>
+        <input name="email" class="form-control" />
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Search" class="btn btn-primary" />
+    </div>}
+
 @if (@ViewBag.QRCode != null)
 {
     <img src="@ViewBag.QRCode" style="width:200px;height:200px" />
 }
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
