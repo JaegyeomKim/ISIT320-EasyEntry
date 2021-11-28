@@ -160,19 +160,39 @@ namespace Team_EasyEntry.Controllers
         }
 
         [HttpPost]
-        public IActionResult QRIndex(string inputText) // inputText is from index2
+        public async Task<IActionResult> QRIndex(int ID) // inputText is from QRIndex 
         {
-            using (MemoryStream ms = new MemoryStream()) // What is this for?
-            {
-                QRCodeGenerator oRCodeGenerator = new QRCodeGenerator();
-                QRCodeData oQRCodeDate = oRCodeGenerator.CreateQrCode(inputText, QRCodeGenerator.ECCLevel.Q);
-                QRCode oQECode = new QRCode(oQRCodeDate);
-                using (Bitmap oBitmap = oQECode.GetGraphic(20))
+
+            var customer = await _context.Customer.FindAsync(7);
+            //string name = "lalala";
+            //var customer = await _context.Customer.FindAsync("Kay");
+                using (MemoryStream ms = new MemoryStream()) // What is this for?
                 {
-                    oBitmap.Save(ms, ImageFormat.Png);
-                    ViewBag.QRCode = "data:image/png;base64," + Convert.ToBase64String(ms.ToArray());
+                    QRCodeGenerator oRCodeGenerator = new QRCodeGenerator();
+                    QRCodeData oQRCodeDate = oRCodeGenerator.CreateQrCode(customer.SecondShotDate + customer.FirstName, QRCodeGenerator.ECCLevel.Q); //for new just try first name
+                    QRCode oQECode = new QRCode(oQRCodeDate);
+                    using (Bitmap oBitmap = oQECode.GetGraphic(20))
+                    {
+                        oBitmap.Save(ms, ImageFormat.Png);
+                        ViewBag.QRCode = "data:image/png;base64," + Convert.ToBase64String(ms.ToArray());
+                    }
                 }
-            }
+
+            //if (inputText != null)
+            //{
+            //    using (MemoryStream ms = new MemoryStream()) // What is this for?
+            //    {
+            //        QRCodeGenerator oRCodeGenerator = new QRCodeGenerator();
+            //        QRCodeData oQRCodeDate = oRCodeGenerator.CreateQrCode(inputText, QRCodeGenerator.ECCLevel.Q);
+            //        QRCode oQECode = new QRCode(oQRCodeDate);
+            //        using (Bitmap oBitmap = oQECode.GetGraphic(20))
+            //        {
+            //            oBitmap.Save(ms, ImageFormat.Png);
+            //            ViewBag.QRCode = "data:image/png;base64," + Convert.ToBase64String(ms.ToArray());
+            //        }
+            //    }
+            //}
+
             return View();
         }
     }

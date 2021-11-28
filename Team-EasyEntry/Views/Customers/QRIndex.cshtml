@@ -2,12 +2,6 @@
     ViewData["Title"] = "QRCode Page";
 }
 
-@using (Html.BeginForm("QRIndex", "Customers", FormMethod.Post))
-{
-    <input type="text" name="inputText" />
-    <input type="submit" value="Generate" />
-}
-
 <hr />
 
 @if (@ViewBag.QRCode != null)

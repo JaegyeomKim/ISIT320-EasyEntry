@@ -14,7 +14,10 @@
 
 <p>
     <a asp-action="QRIndex">
-        <button>Ceate QR Code</button>
+        @using (Html.BeginForm("QRIndex", "Customers", FormMethod.Post))
+        {
+            <button>Ceate QR Code</button>
+        }
     </a>
 </p>
 
