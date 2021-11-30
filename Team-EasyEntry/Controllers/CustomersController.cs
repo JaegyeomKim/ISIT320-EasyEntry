@@ -61,13 +61,23 @@ namespace Team_EasyEntry.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,Email,FirstShotDate,FirstShotName,SecondShotDate,SecondShotName,ThirdShotDate,ThirdShotName")] Customer customer)
         {
+            // 중복 방지
+            var check_email = from m in _context.Customer
+                              select m;
+            int check = check_email.Count(j => j.Email.Contains(customer.Email));
+            if (check > 0)
+            {
+                ViewBag.Error = "----- Error: Check Email -----";
+                return View();
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Add(customer);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(customer);
+            return View(customer); //why go back to main page?
         }
 
         // GET: Customers/Edit/5
@@ -163,22 +173,36 @@ namespace Team_EasyEntry.Controllers
         [HttpPost]
         public async Task<IActionResult> QRIndex(string email) // inputText is from QRIndex 
         {
-            var customer = await _context.Customer.Where(j => j.Email.Contains(email)).FirstAsync();
-            //var customer = await _context.Customer.FindAsync(7);
-            using (MemoryStream ms = new MemoryStream()) // What is this for?
+
+            // 없는 값 확인 그래서  var customer error 방지
+            var check_email = from m in _context.Customer
+                              select m;
+            int check = check_email.Count(j => j.Email.Contains(email));
+
+
+            //string test = check.ToString();
+            if (email != null && check > 0)
             {
-                QRCodeGenerator oRCodeGenerator = new QRCodeGenerator();
-                string userData = customer.FirstName + customer.LastName + customer.FirstShotName + customer.FirstShotDate + customer.SecondShotName + customer.SecondShotDate + customer.ThirdShotName + customer.ThirdShotDate;
-                QRCodeData oQRCodeDate = oRCodeGenerator.CreateQrCode(userData, QRCodeGenerator.ECCLevel.Q); //for new just try first name
-                QRCode oQECode = new QRCode(oQRCodeDate);
-                using (Bitmap oBitmap = oQECode.GetGraphic(20))
+                var customer = await _context.Customer.Where(j => j.Email.Contains(email)).FirstAsync();
+                using (MemoryStream ms = new MemoryStream()) // What is this for?
                 {
-                    oBitmap.Save(ms, ImageFormat.Png);
-                    ViewBag.QRCode = "data:image/png;base64," + Convert.ToBase64String(ms.ToArray());
+                    QRCodeGenerator oRCodeGenerator = new QRCodeGenerator();
+                    string userData = customer.FirstName + customer.LastName + customer.FirstShotName + customer.FirstShotDate + customer.SecondShotName + customer.SecondShotDate + customer.ThirdShotName + customer.ThirdShotDate;
+                    QRCodeData oQRCodeDate = oRCodeGenerator.CreateQrCode(userData, QRCodeGenerator.ECCLevel.Q); //for new just try first name
+                    QRCode oQECode = new QRCode(oQRCodeDate);
+                    using (Bitmap oBitmap = oQECode.GetGraphic(20))
+                    {
+                        oBitmap.Save(ms, ImageFormat.Png);
+                        ViewBag.QRCode = "data:image/png;base64," + Convert.ToBase64String(ms.ToArray());
+                    }
                 }
             }
-
+            else
+            {
+                ViewBag.Error = "----- Error: Check Email -----";
+            }
             return View();
+
             //var customer = await _context.Customer.Where(j => j.Email.Contains(SearchPhrase)).FirstAsync();
             //    using (MemoryStream ms = new MemoryStream()) // What is this for?
             //    {
