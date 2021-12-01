@@ -26,25 +26,7 @@ namespace Team_EasyEntry.Controllers
         // GET: Customers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Customer.ToListAsync());
-        }
-
-        // GET: Customers/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var customer = await _context.Customer
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (customer == null)
-            {
-                return NotFound();
-            }
-
-            return View(customer);
+            return View();
         }
 
         [Authorize]
@@ -67,7 +49,7 @@ namespace Team_EasyEntry.Controllers
             int check = check_email.Count(j => j.Email.Contains(customer.Email));
             if (check > 0)
             {
-                ViewBag.Error = "----- Error: Check Email -----";
+                ViewBag.Error = "--- Error: The Email has Already been added ---";
                 return View();
             }
 
@@ -81,92 +63,70 @@ namespace Team_EasyEntry.Controllers
         }
 
         // GET: Customers/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit()
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            return View();
+        }
 
-            var customer = await _context.Customer.FindAsync(id);
-            if (customer == null)
+        public IActionResult Edit2(string email)
+        {
+
+            //                ViewBag.Error = "----- Error: Check Email -----";
+            var check_email = from m in _context.Customer
+                              select m;
+            int check = check_email.Count(j => j.Email.Contains(email));
+            if (check <= 0)
             {
-                return NotFound();
+                ViewBag.Error = "----- Error: Check Email -----";
+                return View("Edit");
+
             }
-            return View(customer);
+            else
+            {
+                ViewBag.Error = "Change Your Informaion";
+                //int userID = _context.Customer.Where(m => m.Email == email).Select(m => m.ID).FirstOrDefault();
+                return View("Edit");
+            }
         }
 
         // POST: Customers/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,FirstName,LastName,FirstShotDate,FirstShotName,SecondShotDate,SecondShotName,ThirdShotDate,ThirdShotName")] Customer customer)
+        public async Task<IActionResult> Edit3Async(string Email, string FirstName, string LastName, string FirstShotDate, string FirstShotName, string SecondShotDate, string SecondShotName, string ThirdShotDate, string ThirdShotName)
         {
-            if (id != customer.ID)
-            {
-                return NotFound();
-            }
+            int userID = _context.Customer.Where(m => m.Email == Email).Select(m => m.ID).FirstOrDefault();
+            var customer = await _context.Customer.FindAsync(userID);
+            customer.Email = Email;
+            customer.FirstName = FirstName;
+            customer.LastName = LastName;
+            customer.FirstShotDate = FirstShotDate;
+            customer.FirstShotName = FirstShotName;
+            customer.SecondShotDate = SecondShotDate;
+            customer.SecondShotName = SecondShotName;
+            customer.ThirdShotDate = ThirdShotDate;
+            customer.ThirdShotName = ThirdShotName;  // ******  Find more effective way   ******
+            _context.Update(customer);
+            _context.SaveChanges();
+            return View("index");
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(customer);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CustomerExists(customer.ID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(customer);
+
+            //---------------------------------ADD and Delete "Change ID"----------------------------------------------//
+            //var customer = await _context.Customer.FindAsync(userID);
+            //Customer _cust = _context.Customer.Find(userID);
+            //_context.Customer.Remove(customer);  
+            //Customer fixedCust = new Customer();
+            //fixedCust.FirstName = "ohohohohohooh";
+            //fixedCust.Email = "jaegyeom1215@gmail.com";
+            //_context.Customer.Add(fixedCust);
+            //_context.SaveChanges();
+
+            //return View("index");
+            //-------------------------------------------------------------------------------------------//
+
         }
 
-        // GET: Customers/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var customer = await _context.Customer
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (customer == null)
-            {
-                return NotFound();
-            }
-
-            return View(customer);
-        }
-
-        // POST: Customers/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var customer = await _context.Customer.FindAsync(id);
-            _context.Customer.Remove(customer);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool CustomerExists(int id)
-        {
-            return _context.Customer.Any(e => e.ID == id);
-        }
-
-
-        public async Task<IActionResult> QRIndex()
+        public IActionResult QRIndex()
         {
             return View();
         }
@@ -203,20 +163,6 @@ namespace Team_EasyEntry.Controllers
             }
             return View();
 
-            //var customer = await _context.Customer.Where(j => j.Email.Contains(SearchPhrase)).FirstAsync();
-            //    using (MemoryStream ms = new MemoryStream()) // What is this for?
-            //    {
-            //        QRCodeGenerator oRCodeGenerator = new QRCodeGenerator();
-            //        QRCodeData oQRCodeDate = oRCodeGenerator.CreateQrCode("lalala", QRCodeGenerator.ECCLevel.Q); //for new just try first name
-            //        QRCode oQECode = new QRCode(oQRCodeDate);
-            //        using (Bitmap oBitmap = oQECode.GetGraphic(20))
-            //        {
-            //            oBitmap.Save(ms, ImageFormat.Png);
-            //            ViewBag.QRCode = "data:image/png;base64," + Convert.ToBase64String(ms.ToArray());
-
-            //    }
-            //}
-            //return View();
         }
     }
 }
