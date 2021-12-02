@@ -40,18 +40,14 @@
 
             <div class="form-group">
                 <label asp-for="FirstShotName" class="control-label"></label>
-                <select name="job">
-                    <option value="">직업선택</option>
-                    <option value="학생">학생</option>
-                    <option value="회사원">회사원</option>
-                    <option value="기타">기타</option>
+                <select asp-for="FirstShotName" class="form-control">
+                    @foreach (var item in ViewBag.vaccine)
+                    {
+                        <option type="checkbox" id="Check_@item.ID" checked="@item.Check">@item.vaccine_name</option>
+                    }
                 </select>
-                <input asp-for="FirstShotName" class="form-control" />
                 <span asp-validation-for="FirstShotName" class="text-danger"></span>
             </div>
-
-
-
 
             <div class="form-group">
                 <label asp-for="SecondShotDate" class="control-label"></label>
@@ -60,7 +56,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="SecondShotName" class="control-label"></label>
-                <input asp-for="SecondShotName" class="form-control" />
+                <select asp-for="SecondShotName" class="form-control">
+                    @foreach (var item in ViewBag.vaccine)
+                    {
+                        <option type="checkbox" id="Check_@item.ID" checked="@item.Check">@item.vaccine_name</option>
+                    }
+                </select>
                 <span asp-validation-for="SecondShotName" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -70,7 +71,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="ThirdShotName" class="control-label"></label>
-                <input asp-for="ThirdShotName" class="form-control" />
+                <select asp-for="ThirdShotName" class="form-control">
+                    @foreach (var item in ViewBag.vaccine)
+                    {
+                        <option type="checkbox" id="Check_@item.ID" checked="@item.Check">@item.vaccine_name</option>
+                    }
+                </select>
                 <span asp-validation-for="ThirdShotName" class="text-danger"></span>
             </div>
             <div class="form-group">

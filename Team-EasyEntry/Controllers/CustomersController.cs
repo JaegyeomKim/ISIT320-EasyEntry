@@ -34,6 +34,7 @@ namespace Team_EasyEntry.Controllers
         // GET: Customers/Create
         public IActionResult Create()
         {
+            Check_Vaccine();
             return View();
         }
 
@@ -71,8 +72,7 @@ namespace Team_EasyEntry.Controllers
 
         public IActionResult Edit2(string email)
         {
-
-            //                ViewBag.Error = "----- Error: Check Email -----";
+            Check_Vaccine();
             var check_email = from m in _context.Customer
                               select m;
             int check = check_email.Count(j => j.Email.Contains(email));
@@ -84,7 +84,6 @@ namespace Team_EasyEntry.Controllers
             else
             {
                 ViewBag.Error = "Change Your Informaion";
-                //int userID = _context.Customer.Where(m => m.Email == email).Select(m => m.ID).FirstOrDefault();
                 return View("Edit");
             }
         }
@@ -110,20 +109,6 @@ namespace Team_EasyEntry.Controllers
             _context.SaveChanges();
             return View("index");
 
-
-            //---------------------------------ADD and Delete "Change ID"----------------------------------------------//
-            //var customer = await _context.Customer.FindAsync(userID);
-            //Customer _cust = _context.Customer.Find(userID);
-            //_context.Customer.Remove(customer);  
-            //Customer fixedCust = new Customer();
-            //fixedCust.FirstName = "ohohohohohooh";
-            //fixedCust.Email = "jaegyeom1215@gmail.com";
-            //_context.Customer.Add(fixedCust);
-            //_context.SaveChanges();
-
-            //return View("index");
-            //-------------------------------------------------------------------------------------------//
-
         }
 
         public IActionResult QRIndex()
@@ -134,7 +119,6 @@ namespace Team_EasyEntry.Controllers
         public async Task<IActionResult> QRIndex(string email) // inputText is from QRIndex 
         {
 
-            // 없는 값 확인 그래서  var customer error 방지
             var check_email = from m in _context.Customer
                               select m;
             int check = check_email.Count(j => j.Email.Contains(email));
@@ -147,15 +131,6 @@ namespace Team_EasyEntry.Controllers
                 using (MemoryStream ms = new MemoryStream()) // What is this for?
                 {
                     QRCodeGenerator oRCodeGenerator = new QRCodeGenerator();
-<<<<<<< HEAD
-                    string userData = customer.FirstName + customer.LastName + customer.FirstShotName + customer.FirstShotDate + customer.SecondShotName + customer.SecondShotDate + customer.ThirdShotName + customer.ThirdShotDate;
-                    JObject json = JObject.Parse(userData);
-                    string jaonString = json.ToString();
-                    QRCodeData oQRCodeDate = oRCodeGenerator.CreateQrCode(jaonString, QRCodeGenerator.ECCLevel.Q); //for new just try first name
-=======
-                    
-                    //string userData = customer.FirstName + customer.LastName + customer.FirstShotName + customer.FirstShotDate + customer.SecondShotName + customer.SecondShotDate + customer.ThirdShotName + customer.ThirdShotDate;
-
                     Customer cus = new Customer();
                     cus.ID = customer.ID;
                     cus.Email = customer.Email;
@@ -193,7 +168,6 @@ namespace Team_EasyEntry.Controllers
                     string jsonString = JsonConvert.SerializeObject(cus);
 
                     QRCodeData oQRCodeDate = oRCodeGenerator.CreateQrCode(jsonString, QRCodeGenerator.ECCLevel.Q); //for new just try first name
->>>>>>> cbfe09ce79357181ce8482722075025f19b19ba9
                     QRCode oQECode = new QRCode(oQRCodeDate);
                     using (Bitmap oBitmap = oQECode.GetGraphic(20))
                     {
@@ -207,7 +181,17 @@ namespace Team_EasyEntry.Controllers
                 ViewBag.Error = "----- Error: Check Email -----";
             }
             return View();
-
         }
+
+        public void Check_Vaccine()
+        {
+            List<Vaccine> ListVaccine = new List<Vaccine>();
+            ListVaccine.Add(new Vaccine { ID = 1, vaccine_name = "Pfizer", Check = false });
+            ListVaccine.Add(new Vaccine { ID = 1, vaccine_name = "Moderna", Check = false });
+            ListVaccine.Add(new Vaccine { ID = 1, vaccine_name = "Johnson", Check = false });
+
+            ViewBag.vaccine = ListVaccine;
+        }
+
     }
 }
