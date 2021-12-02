@@ -35,11 +35,24 @@
                 <input asp-for="FirstShotDate" class="form-control" />
                 <span asp-validation-for="FirstShotDate" class="text-danger"></span>
             </div>
+
+
+
             <div class="form-group">
                 <label asp-for="FirstShotName" class="control-label"></label>
+                <select name="job">
+                    <option value="">직업선택</option>
+                    <option value="학생">학생</option>
+                    <option value="회사원">회사원</option>
+                    <option value="기타">기타</option>
+                </select>
                 <input asp-for="FirstShotName" class="form-control" />
                 <span asp-validation-for="FirstShotName" class="text-danger"></span>
             </div>
+
+
+
+
             <div class="form-group">
                 <label asp-for="SecondShotDate" class="control-label"></label>
                 <input asp-for="SecondShotDate" class="form-control" />

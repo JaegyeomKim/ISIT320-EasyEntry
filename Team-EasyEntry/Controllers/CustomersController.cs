@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
 using QRCoder;
 using Team_EasyEntry.Data;
 using Team_EasyEntry.Models;
@@ -29,7 +30,6 @@ namespace Team_EasyEntry.Controllers
             return View();
         }
 
-        [Authorize]
         // GET: Customers/Create
         public IActionResult Create()
         {
@@ -79,7 +79,6 @@ namespace Team_EasyEntry.Controllers
             {
                 ViewBag.Error = "----- Error: Check Email -----";
                 return View("Edit");
-
             }
             else
             {
@@ -148,7 +147,9 @@ namespace Team_EasyEntry.Controllers
                 {
                     QRCodeGenerator oRCodeGenerator = new QRCodeGenerator();
                     string userData = customer.FirstName + customer.LastName + customer.FirstShotName + customer.FirstShotDate + customer.SecondShotName + customer.SecondShotDate + customer.ThirdShotName + customer.ThirdShotDate;
-                    QRCodeData oQRCodeDate = oRCodeGenerator.CreateQrCode(userData, QRCodeGenerator.ECCLevel.Q); //for new just try first name
+                    JObject json = JObject.Parse(userData);
+                    string jaonString = json.ToString();
+                    QRCodeData oQRCodeDate = oRCodeGenerator.CreateQrCode(jaonString, QRCodeGenerator.ECCLevel.Q); //for new just try first name
                     QRCode oQECode = new QRCode(oQRCodeDate);
                     using (Bitmap oBitmap = oQECode.GetGraphic(20))
                     {
