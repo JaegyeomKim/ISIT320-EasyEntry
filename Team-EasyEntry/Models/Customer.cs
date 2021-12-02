@@ -18,6 +18,8 @@ namespace Team_EasyEntry.Models
         public string ThirdShotDate { get; set; }
         public string ThirdShotName { get; set; }
 
+        public bool Vaccinated { get; set; }
+
         public Customer()
         {
 

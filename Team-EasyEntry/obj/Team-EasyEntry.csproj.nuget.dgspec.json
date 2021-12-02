@@ -1,27 +1,21 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\jaegy\\Desktop\\Project-EasyEntry\\Team-EasyEntry\\Team-EasyEntry.csproj": {}
+    "D:\\ISIT320\\ISIT320-EasyEntry\\Team-EasyEntry\\Team-EasyEntry.csproj": {}
   },
   "projects": {
-    "C:\\Users\\jaegy\\Desktop\\Project-EasyEntry\\Team-EasyEntry\\Team-EasyEntry.csproj": {
+    "D:\\ISIT320\\ISIT320-EasyEntry\\Team-EasyEntry\\Team-EasyEntry.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\jaegy\\Desktop\\Project-EasyEntry\\Team-EasyEntry\\Team-EasyEntry.csproj",
+        "projectUniqueName": "D:\\ISIT320\\ISIT320-EasyEntry\\Team-EasyEntry\\Team-EasyEntry.csproj",
         "projectName": "Team-EasyEntry",
-        "projectPath": "C:\\Users\\jaegy\\Desktop\\Project-EasyEntry\\Team-EasyEntry\\Team-EasyEntry.csproj",
-        "packagesPath": "C:\\Users\\jaegy\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\jaegy\\Desktop\\Project-EasyEntry\\Team-EasyEntry\\obj\\",
+        "projectPath": "D:\\ISIT320\\ISIT320-EasyEntry\\Team-EasyEntry\\Team-EasyEntry.csproj",
+        "packagesPath": "C:\\Users\\seank\\.nuget\\packages\\",
+        "outputPath": "D:\\ISIT320\\ISIT320-EasyEntry\\Team-EasyEntry\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
-        ],
         "configFilePaths": [
-          "C:\\Users\\jaegy\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Users\\seank\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -72,6 +66,10 @@
               "target": "Package",
               "version": "[3.1.5, )"
             },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.1, )"
+            },
             "QRCoderNetCore": {
               "target": "Package",
               "version": "[1.0.0, )"
@@ -95,7 +93,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.301\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.102\\RuntimeIdentifierGraph.json"
         }
       }
     }

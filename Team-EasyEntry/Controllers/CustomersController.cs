@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using QRCoder;
+using Newtonsoft.Json;
 using Team_EasyEntry.Data;
 using Team_EasyEntry.Models;
 namespace Team_EasyEntry.Controllers
@@ -147,8 +148,46 @@ namespace Team_EasyEntry.Controllers
                 using (MemoryStream ms = new MemoryStream()) // What is this for?
                 {
                     QRCodeGenerator oRCodeGenerator = new QRCodeGenerator();
-                    string userData = customer.FirstName + customer.LastName + customer.FirstShotName + customer.FirstShotDate + customer.SecondShotName + customer.SecondShotDate + customer.ThirdShotName + customer.ThirdShotDate;
-                    QRCodeData oQRCodeDate = oRCodeGenerator.CreateQrCode(userData, QRCodeGenerator.ECCLevel.Q); //for new just try first name
+                    
+                    //string userData = customer.FirstName + customer.LastName + customer.FirstShotName + customer.FirstShotDate + customer.SecondShotName + customer.SecondShotDate + customer.ThirdShotName + customer.ThirdShotDate;
+
+                    Customer cus = new Customer();
+                    cus.ID = customer.ID;
+                    cus.Email = customer.Email;
+                    cus.FirstName = customer.FirstName;
+                    cus.LastName = customer.LastName;
+                    cus.FirstShotName = customer.FirstShotName;
+                    cus.FirstShotDate = customer.FirstShotDate;
+                    cus.SecondShotDate = customer.SecondShotDate;
+                    cus.SecondShotName = customer.SecondShotName;
+                    cus.ThirdShotDate = customer.ThirdShotDate;
+                    cus.ThirdShotName = customer.ThirdShotName;
+
+                    if (customer.ThirdShotDate == "")
+                    {
+                        //use second shot.
+                        DateTime firstDate = Convert.ToDateTime(customer.FirstShotDate);
+                        DateTime secondDate = Convert.ToDateTime(customer.SecondShotDate);
+                        TimeSpan difference = secondDate - firstDate;
+                        if (difference.TotalDays > 14)
+                        {
+                            cus.Vaccinated = true;
+                        }
+                    }
+                    else
+                    {
+                        DateTime secondDate = Convert.ToDateTime(customer.SecondShotDate);
+                        DateTime thirdDate = Convert.ToDateTime(customer.ThirdShotDate);
+                        TimeSpan difference = thirdDate - secondDate;
+                        if (difference.TotalDays > 14)
+                        {
+                            cus.Vaccinated = true;
+                        }
+                    }
+
+                    string jsonString = JsonConvert.SerializeObject(cus);
+
+                    QRCodeData oQRCodeDate = oRCodeGenerator.CreateQrCode(jsonString, QRCodeGenerator.ECCLevel.Q); //for new just try first name
                     QRCode oQECode = new QRCode(oQRCodeDate);
                     using (Bitmap oBitmap = oQECode.GetGraphic(20))
                     {
