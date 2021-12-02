@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "lWkibP6IowCCn4fge3O3JHDwGyWBYAvD/LEHqChLEwKzYnGxKStR8zRlSr59sIpFmyNDokSIeCt8xStOaOxLrA==",
+  "dgSpecHash": "EX5ZVPqwEEBehQ3BdKGBJ/vfPhA2hZhedXLhJe6TDDiRuDpOiOuJPq9fvOyjQHmejdTo5R5uT+G4bUhtgCffJg==",
   "success": true,
   "projectFilePath": "C:\\Users\\jaegy\\Desktop\\Project-EasyEntry\\Team-EasyEntry\\Team-EasyEntry.csproj",
   "expectedPackageFiles": [
@@ -65,7 +65,7 @@
     "C:\\Users\\jaegy\\.nuget\\packages\\microsoft.win32.registry\\4.5.0\\microsoft.win32.registry.4.5.0.nupkg.sha512",
     "C:\\Users\\jaegy\\.nuget\\packages\\microsoft.win32.systemevents\\4.5.0\\microsoft.win32.systemevents.4.5.0.nupkg.sha512",
     "C:\\Users\\jaegy\\.nuget\\packages\\netstandard.library\\1.6.1\\netstandard.library.1.6.1.nupkg.sha512",
-    "C:\\Users\\jaegy\\.nuget\\packages\\newtonsoft.json\\12.0.2\\newtonsoft.json.12.0.2.nupkg.sha512",
+    "C:\\Users\\jaegy\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
     "C:\\Users\\jaegy\\.nuget\\packages\\nuget.frameworks\\4.7.0\\nuget.frameworks.4.7.0.nupkg.sha512",
     "C:\\Users\\jaegy\\.nuget\\packages\\qrcodernetcore\\1.0.0\\qrcodernetcore.1.0.0.nupkg.sha512",
     "C:\\Users\\jaegy\\.nuget\\packages\\runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl\\4.3.0\\runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
