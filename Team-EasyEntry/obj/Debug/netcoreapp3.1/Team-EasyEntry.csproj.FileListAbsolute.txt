@@ -494,7 +494,6 @@ C:\Users\jaegy\Desktop\Project-EasyEntry\Team-EasyEntry\obj\Debug\netcoreapp3.1\
 C:\Users\jaegy\Desktop\Project-EasyEntry\Team-EasyEntry\obj\Debug\netcoreapp3.1\Razor\Views\Home\Privacy.cshtml.g.cs
 C:\Users\jaegy\Desktop\Project-EasyEntry\Team-EasyEntry\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Error.cshtml.g.cs
 C:\Users\jaegy\Desktop\Project-EasyEntry\Team-EasyEntry\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Layout.cshtml.g.cs
-C:\Users\jaegy\Desktop\Project-EasyEntry\Team-EasyEntry\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_LoginPartial.cshtml.g.cs
 C:\Users\jaegy\Desktop\Project-EasyEntry\Team-EasyEntry\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_ValidationScriptsPartial.cshtml.g.cs
 C:\Users\jaegy\Desktop\Project-EasyEntry\Team-EasyEntry\obj\Debug\netcoreapp3.1\Razor\Views\_ViewImports.cshtml.g.cs
 C:\Users\jaegy\Desktop\Project-EasyEntry\Team-EasyEntry\obj\Debug\netcoreapp3.1\Razor\Views\_ViewStart.cshtml.g.cs
@@ -678,3 +677,5 @@ D:\ISIT320\ISIT320-EasyEntry\Team-EasyEntry\obj\Debug\netcoreapp3.1\Team-EasyEnt
 D:\ISIT320\ISIT320-EasyEntry\Team-EasyEntry\obj\Debug\netcoreapp3.1\Team-EasyEntry.dll
 D:\ISIT320\ISIT320-EasyEntry\Team-EasyEntry\obj\Debug\netcoreapp3.1\Team-EasyEntry.pdb
 D:\ISIT320\ISIT320-EasyEntry\Team-EasyEntry\obj\Debug\netcoreapp3.1\Team-EasyEntry.genruntimeconfig.cache
+C:\Users\jaegy\Desktop\Project-EasyEntry\Team-EasyEntry\obj\Debug\netcoreapp3.1\Team-EasyEntry.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\jaegy\Desktop\Project-EasyEntry\Team-EasyEntry\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_LoginPartial.cshtml.g.cs

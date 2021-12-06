@@ -13,7 +13,7 @@
         <div class="Error" style="color : red">
             @ViewBag.Error
         </div>
-        <form asp-action="Create">
+        <form asp-action="Create" type="button" class="btn btn-info btn-lg btn-block">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label"></label>
