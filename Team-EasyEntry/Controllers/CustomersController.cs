@@ -46,6 +46,7 @@ namespace Team_EasyEntry.Controllers
         public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,Email,FirstShotDate,FirstShotName,SecondShotDate,SecondShotName,ThirdShotDate,ThirdShotName")] Customer customer)
         {
             // 중복 방지
+            Check_Vaccine();
             var check_email = from m in _context.Customer
                               select m;
             int check = check_email.Count(j => j.Email.Contains(customer.Email));

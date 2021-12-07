@@ -6,12 +6,13 @@
     <title>@ViewData["Title"] - Team_EasyEntry</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link href='https://fonts.googleapis.com/css?family=Biryani' rel='stylesheet' />
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Customers" asp-action="Index">Team_EasyEntry</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Customers" asp-action="Index" style="color:black">EasyEntry</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -20,7 +21,7 @@
                     <partial name="_LoginPartial" />
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Customers" asp-action="Index">Home</a>
+                            <a class="nav-link text-black" asp-area="" asp-controller="Customers" asp-action="Index">Home</a>
                         </li>
                     </ul>
                 </div>
@@ -35,7 +36,9 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2021 - Team_EasyEntry - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; Created by Team Easy Entry-
+            Team Members: Sean Kelly, Joseph Jennings,
+            Teresa Balbiani, Jaegyeom Kim, Chitalu Mumba, Luiza Cartaxo
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
