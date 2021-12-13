@@ -20,68 +20,82 @@ namespace Team_EasyEntry.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        public CustomersController(ApplicationDbContext context)
+        public CustomersController(ApplicationDbContext context) // This is for creating DataBase constructor 
         {
             _context = context;
         }
 
-        // GET: Customers
+        // Tihs Method is for showing the Index.cshtml if user click some button which calls the method, then user navigates to index.cshtml page.
         public async Task<IActionResult> Index()
         {
             return View();
         }
 
-        // GET: Customers/Create
+        // Tihs Method is for showing the Create.cshtml if user click some button which calls the method, then user navigates to Create.cshtml page.
+
         public IActionResult Create()
         {
-            Check_Vaccine();
+            // Create the list data which include Vaccination tpye as viewBag 
+            Check_Vaccine();  
             return View();
         }
 
-        // POST: Customers/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // This method works after user type the information and click the Crate Button.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,Email,FirstShotDate,FirstShotName,SecondShotDate,SecondShotName,ThirdShotDate,ThirdShotName")] Customer customer)
         {
-            // 중복 방지
+            // Create the list data which include Vaccination tpye as viewBag 
             Check_Vaccine();
+
+            // Call Customer Table DataBase in "check_email"
             var check_email = from m in _context.Customer
                               select m;
+
+            // As Using the "check_email (which have customer database)", check count of user Email.  
             int check = check_email.Count(j => j.Email.Contains(customer.Email));
+            //If the email has more than one, shows ViewBag.Error. and navigate to Create page again 
             if (check > 0)
             {
                 ViewBag.Error = "--- Error: The Email has Already been added ---";
                 return View();
             }
-
+            // Add to DataBase If user type vaild informaion and go back to main page.
             if (ModelState.IsValid)
             {
                 _context.Add(customer);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(customer); //why go back to main page?
+            return View(); 
         }
 
-        // GET: Customers/Edit/5
+
+        // Tihs Method is for showing the Edit.cshtml if user click Modift Cutomer Infor button which calls the method, then user navigates to Edit.cshtml page.
         public IActionResult Edit()
         {
             return View();
         }
-
+        // This method works through search butten to check the Email account.
         public IActionResult Edit2(string email)
         {
+            // Create the list data which include Vaccination tpye as viewBag 
             Check_Vaccine();
+
+            // Call Customer Table DataBase in "check_email"
             var check_email = from m in _context.Customer
                               select m;
+
+            // As Using the "check_email (which have customer database)", check count of user Email.  
             int check = check_email.Count(j => j.Email.Contains(email));
+
+            //If check is 0, that means there is no user email. Shows  ViewBag.Error and navigate same page.
             if (check <= 0)
             {
                 ViewBag.Error = "----- Error: Check Email -----";
                 return View("Edit");
             }
+            // If check is more thab 0, then shows Edit page.
             else
             {
                 ViewBag.Error = "Change Your Informaion";
@@ -89,13 +103,13 @@ namespace Team_EasyEntry.Controllers
             }
         }
 
-        // POST: Customers/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // If user tpye the modified informaion and click the Change button. The Customer DB is updated with modified informaion
         [HttpPost]
         public async Task<IActionResult> Edit3Async(string Email, string FirstName, string LastName, string FirstShotDate, string FirstShotName, string SecondShotDate, string SecondShotName, string ThirdShotDate, string ThirdShotName)
         {
+            // Find User Email in the Customer DataBase
             int userID = _context.Customer.Where(m => m.Email == Email).Select(m => m.ID).FirstOrDefault();
+            // Search required table row by email and save modified informaion
             var customer = await _context.Customer.FindAsync(userID);
             customer.Email = Email;
             customer.FirstName = FirstName;
@@ -105,33 +119,42 @@ namespace Team_EasyEntry.Controllers
             customer.SecondShotDate = SecondShotDate;
             customer.SecondShotName = SecondShotName;
             customer.ThirdShotDate = ThirdShotDate;
-            customer.ThirdShotName = ThirdShotName;  // ******  Find more effective way   ******
+            customer.ThirdShotName = ThirdShotName;
+            // Update to Customer DB with modified Informaion 
             _context.Update(customer);
+            // Save function
             _context.SaveChanges();
+            //Navigate to HomePage
             return View("index");
 
         }
 
+        // Tihs Method is for showing the QRIndex.cshtml if user click Check QR button which calls the method, then user navigates to QRIndex.cshtml page.
         public IActionResult QRIndex()
         {
             return View();
         }
-        [HttpPost]
-        public async Task<IActionResult> QRIndex(string email) // inputText is from QRIndex 
-        {
 
-            var check_email = from m in _context.Customer
-                              select m;
+        // This Method shows user's QR code if user type vaild email address. 
+        [HttpPost]
+        public async Task<IActionResult> QRIndex(string email)  
+        {
+            // Call the Customer DB Data and check the email 
+            var check_email = from m in _context.Customer select m;
             int check = check_email.Count(j => j.Email.Contains(email));
 
-
-            //string test = check.ToString();
+            // If the email is in the Customer DataBase Create QR code. 
             if (email != null && check > 0)
             {
+                // Search required table row by email and save modified informaion
                 var customer = await _context.Customer.Where(j => j.Email.Contains(email)).FirstAsync();
-                using (MemoryStream ms = new MemoryStream()) // What is this for?
+                
+                // Download QRCoderNetCore library
+                using (MemoryStream ms = new MemoryStream()) 
                 {
                     QRCodeGenerator oRCodeGenerator = new QRCodeGenerator();
+
+                    // make new Customer class and copy the DB data which saved in "var customer"
                     Customer cus = new Customer();
                     cus.ID = customer.ID;
                     cus.Email = customer.Email;
@@ -146,10 +169,11 @@ namespace Team_EasyEntry.Controllers
 
                     if (customer.ThirdShotDate == "")
                     {
-                        //use second shot.
+                        // save and convert string type date to DateTime type
                         DateTime firstDate = Convert.ToDateTime(customer.FirstShotDate);
                         DateTime secondDate = Convert.ToDateTime(customer.SecondShotDate);
                         TimeSpan difference = secondDate - firstDate;
+                        //check the vaccine data
                         if (difference.TotalDays > 14)
                         {
                             cus.Vaccinated = true;
@@ -157,26 +181,31 @@ namespace Team_EasyEntry.Controllers
                     }
                     else
                     {
+                        // save and convert string type date to DateTime type
                         DateTime secondDate = Convert.ToDateTime(customer.SecondShotDate);
                         DateTime thirdDate = Convert.ToDateTime(customer.ThirdShotDate);
                         TimeSpan difference = thirdDate - secondDate;
+                        //check the vaccine data
                         if (difference.TotalDays > 14)
                         {
                             cus.Vaccinated = true;
                         }
                     }
-
+                    //Convert Customer Data to Json type and save as string. 
                     string jsonString = JsonConvert.SerializeObject(cus);
 
+                    // Generator QR code as using jsonString(customer) data
                     QRCodeData oQRCodeDate = oRCodeGenerator.CreateQrCode(jsonString, QRCodeGenerator.ECCLevel.Q); //for new just try first name
                     QRCode oQECode = new QRCode(oQRCodeDate);
                     using (Bitmap oBitmap = oQECode.GetGraphic(20))
                     {
                         oBitmap.Save(ms, ImageFormat.Png);
+                        // the ViewBag.QRCode shows the QRcode on the page.
                         ViewBag.QRCode = "data:image/png;base64," + Convert.ToBase64String(ms.ToArray());
                     }
                 }
             }
+            // if the email is not in the DB then shows the Error Message and navigate to same page. 
             else
             {
                 ViewBag.Error = "----- Error: Check Email -----";
@@ -184,9 +213,11 @@ namespace Team_EasyEntry.Controllers
             return View();
         }
 
+        // This method is for creating list of vaccine type. 
         public void Check_Vaccine()
         {
             List<Vaccine> ListVaccine = new List<Vaccine>();
+            ListVaccine.Add(new Vaccine { ID = 1, vaccine_name = "None", Check = false });
             ListVaccine.Add(new Vaccine { ID = 1, vaccine_name = "Pfizer", Check = false });
             ListVaccine.Add(new Vaccine { ID = 1, vaccine_name = "Moderna", Check = false });
             ListVaccine.Add(new Vaccine { ID = 1, vaccine_name = "Johnson", Check = false });
